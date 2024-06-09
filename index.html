@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب المعدل السنوي للمدرسة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            direction: rtl; /* Right-to-left text direction */
+            padding: 10px;
+        }
+        .container {
+            background-color: #ffffff;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        .form-group {
+            display: flex;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .form-group label {
+            width: 100%;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #00796b;
+        }
+        .form-group input {
+            flex: 1 1 45%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 5px;
+            min-width: 100px;
+            background-color: #f1f8e9;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s;
+        }
+        button.add {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button.add:hover {
+            background-color: #45a049;
+        }
+        button.calculate {
+            background-color: #008CBA;
+            color: white;
+        }
+        button.calculate:hover {
+            background-color: #007bb5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="inputRows">
+            <div class="form-group">
+                <label for="coefficient1">المعامل</label>
+                <input type="text" id="coefficient1" name="coefficient1">
+                <label for="points1">النقطة</label>
+                <input type="text" id="points1" name="points1">
+            </div>
+            <!-- Additional rows will be added here dynamically -->
+        </div>
+        <button class="add" onclick="addRow()">إضافة نقطة</button>
+        <button class="calculate" onclick="calculateNow()">حساب مجموع النقاط</button>
+    </div>
+
+    <script>
+        let rowCount = 1;
+
+        function addRow() {
+            rowCount++;
+            const newRow = document.createElement('div');
+            newRow.className = 'form-group';
+            newRow.innerHTML = `
+                <label for="coefficient${rowCount}">المعامل</label>
+                <input type="text" id="coefficient${rowCount}" name="coefficient${rowCount}">
+                <label for="points${rowCount}">النقاط</label>
+                <input type="text" id="points${rowCount}" name="points${rowCount}">
+            `;
+            document.getElementById('inputRows').appendChild(newRow);
+        }
+
+        function calculateNow() {
+            let totalPoints = 0;
+            let totalCoefficients = 0;
+
+            for (let i = 1; i <= rowCount; i++) {
+                const coefficient = parseFloat(document.getElementById(`coefficient${i}`).value);
+                const points = parseFloat(document.getElementById(`points${i}`).value);
+
+                if (!isNaN(coefficient) && !isNaN(points)) {
+                    totalPoints += coefficient * points;
+                    totalCoefficients += coefficient;
+                }
+            }
+
+            const average = totalCoefficients ? totalPoints / totalCoefficients : 0;
+
+            alert(`مجموع النقاط: ${totalPoints}\nالمعدل السنوي: ${average}`);
+        }
+    </script>
+</body>
+</html>
